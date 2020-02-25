@@ -1,0 +1,35 @@
+---
+title: "Craps"
+author: "paolo pasco"
+date: "2/25/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+
+```{r}
+roll_one_die <- function() {
+  sample(1:6, 1, replace=TRUE)
+}
+
+roll_two_dice <- function() {
+  roll_one_die() + roll_one_die()
+}
+
+roll_n_dice <- function(n) {
+  stopifnot(is.numeric(n))
+  sample(1:6, n, replace=TRUE)
+}
+```
+
+```{r}
+# rolling a thousand dice
+rolls <- tibble(results = map_int(1:1000, ~ roll_two_dice()))
+
+ggplot(rolls, aes(results)) + geom_histogram(binwidth=1)
+```
